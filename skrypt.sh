@@ -14,23 +14,26 @@ function create_logs() {
 
 function show_help() {
     echo "Dostępne opcje:"
-    echo "--date         Wyświetla dzisiejszą datę"
-    echo "--logs [liczba]   Tworzy automatycznie [liczba] plików log_x.txt"
-    echo "--help         Wyświetla wszystkie dostępne opcje"
+    echo "-d            Wyświetla dzisiejszą datę"
+    echo "-l [liczba]   Tworzy automatycznie [liczba] plików log_x.txt"
+    echo "-h            Wyświetla wszystkie dostępne opcje"
 }
 
-case $1 in
-    --date)
-        show_date
-        ;;
-    --logs)
-        create_logs $2
-        ;;
-    --help)
-        show_help
-        ;;
-    *)
-        echo "Nieznana opcja: $1"
-        show_help
-        ;;
-esac
+while getopts ":dl:h" opt; do
+    case ${opt} in
+        d)
+            show_date
+            ;;
+        l)
+            create_logs $OPTARG
+            ;;
+        h)
+            show_help
+            ;;
+        ?)
+            echo "Nieznana opcja: $OPTARG"
+            show_help
+            ;;
+    esac
+done
+
